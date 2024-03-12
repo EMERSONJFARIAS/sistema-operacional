@@ -3,7 +3,6 @@
 */bin
 *.classpath
 .project
-<<<<<<< HEAD
 /out
 /out/**
 *.iml

@@ -26,9 +26,11 @@ public class RedesController {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
+            	String[] parts = line.split(":");
                 if (line.contains("IPv4")) {
-                    String[] parts = line.split(":");
                     System.out.println(parts[0] + ": " + parts[1].trim());
+                } else if(line.contains("inet")) {
+                    System.out.println(parts[0]);
                 }
             }
             reader.close();
@@ -54,11 +56,16 @@ public class RedesController {
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                if (!line.isBlank()) {
+                if (!line.isBlank() && osName.contains("win")) {
                     String[] parts = line.split("ms", 3);
                     if (parts.length > 2) {
                         System.out.println("Tempo médio de ping: " + parts[2].split(",")[1]);
                     }
+                } else {
+                	String[] parts = line.split("rtt", 3);
+                	if (parts.length > 1) {
+                	System.out.println("Tempo médio de ping: " + parts[1].split("=",2)[1].split("/",4)[1] + "ms");
+                	}
                 }
             }
             reader.close();
